@@ -2,14 +2,15 @@
 
 import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { loginAction } from "@/sa/login-action"
-import { FieldErrors } from "@/sa/types"
+import { loginAction } from "@/sa/login/login-action"
 // import { login, LoginActionReturnType } from "@/actions/login"
 import { loginSchema, ZLoginSchema } from "@/schema/login.schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { z } from "zod"
 
+import { FieldErrors } from "@/lib/create-safe-action"
+import { useAction } from "@/hooks/use-action"
 import { Button } from "@/components/ui/button"
 import { Callout } from "@/components/ui/callout"
 import {
@@ -26,9 +27,7 @@ export const LoginForm = () => {
   const router = useRouter()
 
   const [isPending, startTransition] = useTransition()
-  const [fieldErrors, setFieldErrors] = useState<
-    FieldErrors<ZLoginSchema> | undefined
-  >(undefined)
+  const { execute, fieldErrors, error } = useAction(loginAction)
   //   const [actionResponse, setActionResponse] = useState<LoginActionReturnType>()
 
   const form = useForm<ZLoginSchema>({
@@ -39,10 +38,9 @@ export const LoginForm = () => {
     },
   })
   const onSubmit: SubmitHandler<ZLoginSchema> = async (formData) => {
-    const { fieldErrors } = await loginAction(formData)
-    if (fieldErrors) {
+    execute(formData)
+    if (fieldErrors || error) {
       form.reset()
-      setFieldErrors(fieldErrors)
     }
     router.replace("/dashboard")
   }

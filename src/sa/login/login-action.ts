@@ -5,12 +5,10 @@ import { loginSchema } from "@/schema/login.schema"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 import { z } from "zod"
 
-import { ServerActionReturnType } from "./types"
+import { ReturnType } from "./types"
 
 type ZodLoginSchema = z.infer<typeof loginSchema>
-export async function loginAction(
-  values: ZodLoginSchema
-): Promise<ServerActionReturnType<ZodLoginSchema>> {
+export async function loginAction(values: ZodLoginSchema): Promise<ReturnType> {
   const validatedSchema = loginSchema.safeParse(values)
   if (!validatedSchema.success) {
     return {
@@ -37,10 +35,10 @@ export async function loginAction(
   } else {
     return {
       success: false,
-      message: "Login success!",
-      type: "success",
-      statusCode: 200,
-      error: response.error,
+      message: "Login error!",
+      type: "error",
+      statusCode: 400,
+      error: response.error?.message,
     }
   }
 }
