@@ -1,10 +1,13 @@
 "use client"
 
 import { useState, useTransition } from "react"
+import { useRouter } from "next/navigation"
+import { loginAction } from "@/sa/login-action"
+import { FieldErrors } from "@/sa/types"
 // import { login, LoginActionReturnType } from "@/actions/login"
-import { loginSchema } from "@/schema/login.schema"
+import { loginSchema, ZLoginSchema } from "@/schema/login.schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { SubmitHandler, useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -20,21 +23,28 @@ import {
 import { Input } from "@/components/ui/input"
 
 export const LoginForm = () => {
+  const router = useRouter()
+
   const [isPending, startTransition] = useTransition()
+  const [fieldErrors, setFieldErrors] = useState<
+    FieldErrors<ZLoginSchema> | undefined
+  >(undefined)
   //   const [actionResponse, setActionResponse] = useState<LoginActionReturnType>()
 
-  const form = useForm<z.infer<typeof loginSchema>>({
+  const form = useForm<ZLoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   })
-  const onSubmit = (values: z.infer<typeof loginSchema>) => {
-    // setActionResponse(undefined)
-    // startTransition(() => {
-    //   login(values).then((data) => setActionResponse(data))
-    // })
+  const onSubmit: SubmitHandler<ZLoginSchema> = async (formData) => {
+    const { fieldErrors } = await loginAction(formData)
+    if (fieldErrors) {
+      form.reset()
+      setFieldErrors(fieldErrors)
+    }
+    router.replace("/dashboard")
   }
   return (
     <Form {...form}>

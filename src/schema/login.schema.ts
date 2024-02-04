@@ -13,3 +13,4 @@ export const loginSchema = z.object({
       message: "Maximum 30 characters allowed",
     }),
 })
+export type ZLoginSchema = z.infer<typeof loginSchema>
