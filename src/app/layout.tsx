@@ -4,6 +4,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 
 import { siteConfig } from "@/config/site"
+import db from "@/lib/supabase/db"
 import { cn } from "@/lib/utils"
 import { ThemeProvider } from "@/components/theme-provider"
 
@@ -64,6 +65,7 @@ export const viewport: Viewport = {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
+  // console.log(db)
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
