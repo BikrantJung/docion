@@ -3,17 +3,17 @@ import { SiteConfig } from "@/types"
 import { env } from "@/env.mjs"
 
 export const siteConfig: SiteConfig = {
-  name: "Next Entree",
-  author: "redpangilinan",
+  name: "Docion",
+  author: "bikrantjung",
   description:
-    "Next.js 14+ starter template with app router, shadcn/ui, typesafe env, icons and configs setup.",
+    "An all in one collaborative document editing, and notes taking app.",
   keywords: ["Next.js", "React", "Tailwind CSS", "Radix UI", "shadcn/ui"],
   url: {
     base: env.NEXT_PUBLIC_APP_URL,
-    author: "https://rdev.pro",
+    author: "",
   },
   links: {
-    github: "https://github.com/redpangilinan/next-entree",
+    github: "https://github.com/BikrantJung",
   },
   ogImage: `${env.NEXT_PUBLIC_APP_URL}/og.jpg`,
 }

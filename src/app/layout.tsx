@@ -65,7 +65,7 @@ export const viewport: Viewport = {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
-  console.log(db)
+  // console.log(db)
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
