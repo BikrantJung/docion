@@ -6,6 +6,7 @@ import { loginAction } from '@/sa/login/login-action'
 import { loginSchema, ZLoginSchema } from '@/schema/login.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 import { useAction } from '@/hooks/use-action'
 import { Button } from '@/components/ui/button'
@@ -24,8 +25,11 @@ import { PasswordInput } from './password-input'
 export const LoginForm = () => {
   const router = useRouter()
 
-  const [isPending, startTransition] = useTransition()
-  const { execute, fieldErrors, error } = useAction(loginAction)
+  const { execute, isLoading, fieldErrors, error } = useAction(loginAction, {
+    onError(error) {
+      toast.error(error)
+    },
+  })
   //   const [actionResponse, setActionResponse] = useState<LoginActionReturnType>()
 
   const form = useForm<ZLoginSchema>({
@@ -37,10 +41,6 @@ export const LoginForm = () => {
   })
   const onSubmit: SubmitHandler<ZLoginSchema> = async (formData) => {
     execute(formData)
-    if (fieldErrors || error) {
-      form.reset()
-    }
-    router.replace('/dashboard')
   }
   return (
     <Form {...form}>
@@ -54,7 +54,7 @@ export const LoginForm = () => {
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
-                    disabled={isPending}
+                    disabled={isLoading}
                     placeholder="email@example.com"
                     type="email"
                     autoComplete="off"
@@ -68,7 +68,7 @@ export const LoginForm = () => {
           <FormField
             control={form.control}
             name="password"
-            disabled={isPending}
+            disabled={isLoading}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
@@ -86,7 +86,7 @@ export const LoginForm = () => {
             />
           )} */}
           <Button
-            // isLoading={isPending}
+            isLoading={isLoading}
             className="mx-auto w-full"
             type="submit"
           >

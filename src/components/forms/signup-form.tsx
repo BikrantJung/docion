@@ -6,6 +6,7 @@ import { signupAction } from '@/sa/signup/signup-action'
 import { signupSchema, ZSignupSchema } from '@/schema/signup.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 import { useAction } from '@/hooks/use-action'
 import { Button } from '@/components/ui/button'
@@ -25,7 +26,7 @@ export const SignupForm = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
-  const { execute, fieldErrors, error } = useAction(signupAction)
+  const { execute, error, fieldErrors } = useAction(signupAction)
   //   const [actionResponse, setActionResponse] = useState<LoginActionReturnType>()
 
   const form = useForm<ZSignupSchema>({
@@ -38,7 +39,8 @@ export const SignupForm = () => {
   const onSubmit: SubmitHandler<ZSignupSchema> = async (formData) => {
     execute(formData)
     if (fieldErrors || error) {
-      form.reset()
+      // form.reset()
+      toast.error(error)
     }
     router.replace('/dashboard')
   }

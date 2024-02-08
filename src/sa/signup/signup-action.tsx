@@ -27,7 +27,7 @@ async function handler(values: ZodLoginSchema): Promise<ReturnType> {
   } = validatedSchema
   const supabase = createRouteHandlerClient({ cookies })
   const response = await supabase.auth.signUp({ email, password })
-  if (response.data) {
+  if (response.data.session) {
     return {
       success: true,
       data: response.data,

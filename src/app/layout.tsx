@@ -1,14 +1,15 @@
-import "@/styles/globals.css"
+import '@/styles/globals.css'
 
-import type { Metadata, Viewport } from "next"
-import { Inter } from "next/font/google"
+import type { Metadata, Viewport } from 'next'
+import { Inter } from 'next/font/google'
 
-import { siteConfig } from "@/config/site"
-import db from "@/lib/supabase/db"
-import { cn } from "@/lib/utils"
-import { ThemeProvider } from "@/components/theme-provider"
+import { siteConfig } from '@/config/site'
+import db from '@/lib/supabase/db'
+import { cn } from '@/lib/utils'
+import { Toaster } from '@/components/ui/sonner'
+import { ThemeProvider } from '@/components/theme-provider'
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ['latin'] })
 
 interface RootLayoutProps {
   children: React.ReactNode
@@ -30,8 +31,8 @@ export const metadata: Metadata = {
   ],
   creator: siteConfig.author,
   openGraph: {
-    type: "website",
-    locale: "en_US",
+    type: 'website',
+    locale: 'en_US',
     url: siteConfig.url.base,
     title: siteConfig.name,
     description: siteConfig.description,
@@ -46,21 +47,21 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: 'summary_large_image',
     title: siteConfig.name,
     description: siteConfig.description,
     images: [siteConfig.ogImage],
-    creator: "@_rdev7",
+    creator: '@_rdev7',
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: '/favicon.ico',
   },
 }
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: 'black' },
   ],
 }
 
@@ -71,7 +72,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <head />
       <body
         className={cn(
-          "min-h-screen bg-background antialiased",
+          'min-h-screen bg-background antialiased',
           inter.className
         )}
       >
@@ -82,6 +83,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           disableTransitionOnChange
         >
           {children}
+          <Toaster richColors />
         </ThemeProvider>
       </body>
     </html>

@@ -17,7 +17,9 @@ export const SignupCard = () => {
       showSocialButtons
       Footer={
         <div className="mx-auto text-sm">
-          <Link href="/auth/register">New user? Register</Link>
+          <Link href="/login" className="hover:underline">
+            Already registered? Login
+          </Link>
         </div>
       }
     />

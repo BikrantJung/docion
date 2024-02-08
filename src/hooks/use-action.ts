@@ -1,6 +1,6 @@
-import { useCallback, useState } from "react"
+import { useCallback, useState } from 'react'
 
-import { ActionState, FieldErrors } from "@/lib/create-safe-action"
+import { ActionState, FieldErrors } from '@/lib/create-safe-action'
 
 export type Action<TInput, TOutput> = (
   data: TInput
@@ -23,7 +23,9 @@ export const useAction = <TInput, TOutput>(
   const [data, setData] = useState<TOutput | undefined>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [statusCode, setStatusCode] = useState<number | undefined>(undefined)
-
+  const [isSuccess, setIsSuccess] = useState<boolean | undefined>(false)
+  const [message, setMessage] = useState<string | undefined>()
+  const [type, setType] = useState<ActionState<TInput, TOutput>['type']>()
   const execute = useCallback(
     async (input: TInput) => {
       setIsLoading(true)
@@ -34,8 +36,10 @@ export const useAction = <TInput, TOutput>(
         if (!result) {
           return
         }
-        const { data, error, fieldErrors, statusCode } = result
-
+        const { data, error, fieldErrors, statusCode, message, success, type } =
+          result
+        setMessage(message)
+        setType(type)
         if (fieldErrors) setFieldErrors(fieldErrors)
         if (error) {
           setErrors(error)
@@ -45,6 +49,7 @@ export const useAction = <TInput, TOutput>(
         if (data) {
           setData(data)
           // Callback to onSuccess function
+          setIsSuccess(success)
           setFieldErrors(undefined)
           setErrors(undefined)
           options.onSuccess?.(data)
@@ -66,6 +71,9 @@ export const useAction = <TInput, TOutput>(
     data,
     statusCode,
     isLoading,
+    isSuccess,
+    type,
+    message,
     fieldErrors,
     setFieldErrors,
     execute,

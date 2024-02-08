@@ -88,6 +88,6 @@
 }
 @layer components {
   .icon-sm {
-    @apply h-5 w-5 stroke-[1.3px];
+    @apply h-4 w-4 stroke-[1.3px];
   }
 }
