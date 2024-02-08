@@ -5,14 +5,14 @@ import Link from 'next/link'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { CardWrapper } from '@/components/card/card-wrapper'
-import { SignupForm } from '@/components/forms/signup-form'
+import { SendEmailVerificationLinkForm } from '@/components/forms/verify-email-form'
 import { Icons } from '@/components/icons'
 
 /**
  * A card wrapper for signin box
  * @returns JSX.Element
  */
-export const SignupCard = () => {
+export const VerifyEmailCard = () => {
   const [hideUI, setHideUI] = useState(false)
   const ConfirmEmailBox = () => {
     return (
@@ -31,21 +31,25 @@ export const SignupCard = () => {
   return (
     <CardWrapper
       Header={
-        <div className="text-center text-4xl font-semibold">Welcome Back!</div>
+        <div className="text-center text-4xl font-semibold">
+          Verify your email
+        </div>
       }
       Content={
-        hideUI ? <ConfirmEmailBox /> : <SignupForm setHideUI={setHideUI} />
+        hideUI ? (
+          <ConfirmEmailBox />
+        ) : (
+          <SendEmailVerificationLinkForm setHideUI={setHideUI} />
+        )
       }
-      showSocialButtons={!hideUI}
       Footer={
-        <div className="mx-auto flex flex-col items-center text-sm">
+        <div className="ml-auto flex items-center gap-4 text-sm">
           <Link href="/login" className="hover:underline">
-            Already registered? Login
+            Login
           </Link>
-          {/* <p>or</p>
-          <Link href="/verify-email" className="hover:underline">
-            Verify your email
-          </Link> */}
+          <Link href="/signup" className="hover:underline">
+            Signup
+          </Link>
         </div>
       }
     />

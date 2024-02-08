@@ -16,10 +16,14 @@ export const LoginCard = () => {
       Content={<LoginForm />}
       showSocialButtons
       Footer={
-        <div className="mx-auto text-sm">
+        <div className="mx-auto flex flex-col items-center text-sm">
           <Link href="/signup" className="hover:underline">
             New user? Register
-          </Link>{' '}
+          </Link>
+          {/* <p>or</p>
+          <Link href="/verify-email" className="hover:underline">
+            Verify your email
+          </Link> */}
         </div>
       }
     />

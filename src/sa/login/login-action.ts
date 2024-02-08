@@ -40,7 +40,7 @@ async function handler(values: ZodLoginSchema): Promise<ReturnType> {
       message: 'Login error!',
       type: 'error',
       statusCode: 400,
-      error: response.error?.message,
+      error: response.error?.message || 'Login Error!',
     }
   }
 }
