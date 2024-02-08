@@ -25,9 +25,12 @@ import { PasswordInput } from './password-input'
 export const LoginForm = () => {
   const router = useRouter()
 
-  const { execute, isLoading, fieldErrors, error } = useAction(loginAction, {
+  const { execute, isLoading } = useAction(loginAction, {
     onError(error) {
       toast.error(error)
+    },
+    onSuccess() {
+      router.push('/dashboard')
     },
   })
   //   const [actionResponse, setActionResponse] = useState<LoginActionReturnType>()

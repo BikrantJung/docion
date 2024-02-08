@@ -1,7 +1,6 @@
 'use client'
 
 import { Dispatch, SetStateAction } from 'react'
-import { useRouter } from 'next/navigation'
 import { signupAction } from '@/sa/signup/signup-action'
 import { signupSchema, ZSignupSchema } from '@/schema/signup.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -9,7 +8,6 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 import { useAction } from '@/hooks/use-action'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -21,15 +19,13 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-import { Icons } from '../icons'
 import { PasswordInput } from './password-input'
 
 interface SignupFormProps {
   setHideUI: Dispatch<SetStateAction<boolean>>
 }
 export const SignupForm = ({ setHideUI }: SignupFormProps) => {
-  const router = useRouter()
-  const { execute, isLoading, isSuccess } = useAction(signupAction, {
+  const { execute, isLoading } = useAction(signupAction, {
     onError(error) {
       setHideUI(false)
       toast.error(error)
@@ -37,7 +33,6 @@ export const SignupForm = ({ setHideUI }: SignupFormProps) => {
     onSuccess(_, message) {
       setHideUI(true)
       toast.success(message)
-      // router.push('/')
     },
   })
   //   const [actionResponse, setActionResponse] = useState<LoginActionReturnType>()
