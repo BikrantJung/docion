@@ -2,6 +2,7 @@
 
 import { cookies } from 'next/headers'
 import { loginSchema } from '@/schema/login.schema'
+import { signupSchema } from '@/schema/signup.schema'
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { z } from 'zod'
 
@@ -25,23 +26,23 @@ async function handler(values: ZodLoginSchema): Promise<ReturnType> {
     data: { email, password },
   } = validatedSchema
   const supabase = createRouteHandlerClient({ cookies })
-  const response = await supabase.auth.signInWithPassword({ email, password })
+  const response = await supabase.auth.signUp({ email, password })
   if (response.data) {
     return {
       success: true,
       data: response.data,
-      message: 'Login success!',
+      message: 'Signup success!',
       type: 'success',
       statusCode: 200,
     }
   } else {
     return {
       success: false,
-      message: 'Login error!',
+      message: 'Signup error!',
       type: 'error',
       statusCode: 400,
       error: response.error?.message,
     }
   }
 }
-export const loginAction = createSafeAction(loginSchema, handler)
+export const signupAction = createSafeAction(signupSchema, handler)

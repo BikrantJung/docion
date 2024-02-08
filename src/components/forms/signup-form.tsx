@@ -1,9 +1,9 @@
 'use client'
 
 import { useTransition } from 'react'
-import { useRouter } from 'next/navigation'
-import { loginAction } from '@/sa/login/login-action'
-import { loginSchema, ZLoginSchema } from '@/schema/login.schema'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { signupAction } from '@/sa/signup/signup-action'
+import { signupSchema, ZSignupSchema } from '@/schema/signup.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
@@ -19,21 +19,21 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-export const LoginForm = () => {
+export const SignupForm = () => {
   const router = useRouter()
-
+  const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
-  const { execute, fieldErrors, error } = useAction(loginAction)
+  const { execute, fieldErrors, error } = useAction(signupAction)
   //   const [actionResponse, setActionResponse] = useState<LoginActionReturnType>()
 
-  const form = useForm<ZLoginSchema>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<ZSignupSchema>({
+    resolver: zodResolver(signupSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   })
-  const onSubmit: SubmitHandler<ZLoginSchema> = async (formData) => {
+  const onSubmit: SubmitHandler<ZSignupSchema> = async (formData) => {
     execute(formData)
     if (fieldErrors || error) {
       form.reset()
@@ -70,6 +70,20 @@ export const LoginForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input placeholder="********" type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            disabled={isPending}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
                   <Input placeholder="********" type="password" {...field} />
                 </FormControl>

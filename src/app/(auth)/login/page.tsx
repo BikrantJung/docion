@@ -1,8 +1,4 @@
-import { Text } from "@/components/ui/text"
-import { LoginForm } from "@/components/forms/login-form"
-import { TitleSection } from "@/components/landing-page/title-section"
-
-import { LoginCard } from "../_components/login-card"
+import { LoginCard } from '../_components/login-card'
 
 function LoginPage() {
   return (
