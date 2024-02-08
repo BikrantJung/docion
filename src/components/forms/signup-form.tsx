@@ -19,6 +19,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
+import { PasswordInput } from './password-input'
+
 export const SignupForm = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -71,7 +73,7 @@ export const SignupForm = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="********" type="password" {...field} />
+                  <PasswordInput placeholder="********" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -85,7 +87,7 @@ export const SignupForm = () => {
               <FormItem>
                 <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="********" type="password" {...field} />
+                  <PasswordInput placeholder="********" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

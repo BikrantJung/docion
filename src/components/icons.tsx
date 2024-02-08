@@ -2,10 +2,12 @@ import {
   IconBrandGithub,
   IconBrandGoogleFilled,
   IconCommand,
+  IconEye,
+  IconEyeOff,
   IconLoader2,
   IconMoon,
   IconSun,
-} from "@tabler/icons-react"
+} from '@tabler/icons-react'
 
 export type IconKeys = keyof typeof icons
 
@@ -22,6 +24,8 @@ const icons = {
   loader: IconLoader2,
   github: IconBrandGithub,
   google: IconBrandGoogleFilled,
+  eye: IconEye,
+  eyeOff: IconEyeOff,
 }
 
 export const Icons: IconsType = icons

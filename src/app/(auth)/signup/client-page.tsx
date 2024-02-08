@@ -4,6 +4,8 @@ import { useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import clsx from 'clsx'
 
+import { PasswordInput } from '@/components/forms/password-input'
+
 import { SignupCard } from '../_components/signup-card'
 
 export const SignupClientPage = () => {
