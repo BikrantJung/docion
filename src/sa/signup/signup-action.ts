@@ -3,7 +3,6 @@
 import { cookies } from 'next/headers'
 import { loginSchema } from '@/schema/login.schema'
 import { signupSchema } from '@/schema/signup.schema'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { z } from 'zod'
 
 import { env } from '@/env.mjs'

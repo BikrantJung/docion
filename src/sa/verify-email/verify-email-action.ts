@@ -5,7 +5,6 @@ import {
   verifyEmailSchema,
   ZVerifyEmailSchema,
 } from '@/schema/verify-email.schema'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 
 import { env } from '@/env.mjs'
 import { createSafeAction } from '@/lib/create-safe-action'
