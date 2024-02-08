@@ -6,6 +6,7 @@ import { signupSchema } from '@/schema/signup.schema'
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { z } from 'zod'
 
+import { env } from '@/env.mjs'
 import { createSafeAction } from '@/lib/create-safe-action'
 
 import { ReturnType } from './types'
@@ -26,12 +27,19 @@ async function handler(values: ZodLoginSchema): Promise<ReturnType> {
     data: { email, password },
   } = validatedSchema
   const supabase = createRouteHandlerClient({ cookies })
-  const response = await supabase.auth.signUp({ email, password })
-  if (response.data.session) {
+  const response = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: `${env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`,
+    },
+  })
+  console.log(response.data)
+  if (response.data.user) {
     return {
       success: true,
       data: response.data,
-      message: 'Signup success!',
+      message: 'A confirmation link has been sent to your email.',
       type: 'success',
       statusCode: 200,
     }

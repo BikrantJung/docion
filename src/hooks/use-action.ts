@@ -7,7 +7,7 @@ export type Action<TInput, TOutput> = (
 ) => Promise<ActionState<TInput, TOutput>>
 
 interface UseActionOptions<TOutput> {
-  onSuccess?: (data: TOutput) => void
+  onSuccess?: (data: TOutput, message: string) => void
   onError?: (error: string) => void
   onComplete?: () => void
 }
@@ -52,7 +52,7 @@ export const useAction = <TInput, TOutput>(
           setIsSuccess(success)
           setFieldErrors(undefined)
           setErrors(undefined)
-          options.onSuccess?.(data)
+          options.onSuccess?.(data, message || 'Success')
         }
         if (statusCode) setStatusCode(statusCode)
       } catch (error) {

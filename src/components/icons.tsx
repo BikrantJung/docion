@@ -4,6 +4,7 @@ import {
   IconCommand,
   IconEye,
   IconEyeOff,
+  IconFlame,
   IconLoader2,
   IconMoon,
   IconSun,
@@ -26,6 +27,7 @@ const icons = {
   google: IconBrandGoogleFilled,
   eye: IconEye,
   eyeOff: IconEyeOff,
+  flame: IconFlame,
 }
 
 export const Icons: IconsType = icons

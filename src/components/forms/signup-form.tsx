@@ -1,7 +1,7 @@
 'use client'
 
-import { useTransition } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { Dispatch, SetStateAction } from 'react'
+import { useRouter } from 'next/navigation'
 import { signupAction } from '@/sa/signup/signup-action'
 import { signupSchema, ZSignupSchema } from '@/schema/signup.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -9,6 +9,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 import { useAction } from '@/hooks/use-action'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -20,13 +21,25 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
+import { Icons } from '../icons'
 import { PasswordInput } from './password-input'
 
-export const SignupForm = () => {
+interface SignupFormProps {
+  setHideUI: Dispatch<SetStateAction<boolean>>
+}
+export const SignupForm = ({ setHideUI }: SignupFormProps) => {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const [isPending, startTransition] = useTransition()
-  const { execute, error, fieldErrors } = useAction(signupAction)
+  const { execute, isLoading, isSuccess } = useAction(signupAction, {
+    onError(error) {
+      setHideUI(false)
+      toast.error(error)
+    },
+    onSuccess(_, message) {
+      setHideUI(true)
+      toast.success(message)
+      // router.push('/')
+    },
+  })
   //   const [actionResponse, setActionResponse] = useState<LoginActionReturnType>()
 
   const form = useForm<ZSignupSchema>({
@@ -38,12 +51,9 @@ export const SignupForm = () => {
   })
   const onSubmit: SubmitHandler<ZSignupSchema> = async (formData) => {
     execute(formData)
-    if (fieldErrors || error) {
-      // form.reset()
-      toast.error(error)
-    }
-    router.replace('/dashboard')
+    // router.replace('/dashboard')
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -56,7 +66,7 @@ export const SignupForm = () => {
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
-                    disabled={isPending}
+                    disabled={isLoading}
                     placeholder="email@example.com"
                     type="email"
                     autoComplete="off"
@@ -70,7 +80,7 @@ export const SignupForm = () => {
           <FormField
             control={form.control}
             name="password"
-            disabled={isPending}
+            disabled={isLoading}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
@@ -84,7 +94,7 @@ export const SignupForm = () => {
           <FormField
             control={form.control}
             name="confirmPassword"
-            disabled={isPending}
+            disabled={isLoading}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Confirm Password</FormLabel>
@@ -102,11 +112,11 @@ export const SignupForm = () => {
             />
           )} */}
           <Button
-            // isLoading={isPending}
+            isLoading={isLoading}
             className="mx-auto w-full"
             type="submit"
           >
-            Login
+            Signup
           </Button>
         </div>
       </form>
