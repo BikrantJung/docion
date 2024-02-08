@@ -9,6 +9,7 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 
 import { env } from '@/env.mjs'
 import { createSafeAction } from '@/lib/create-safe-action'
+import { createClient } from '@/lib/supabase/server'
 
 import { ReturnType } from './types'
 
@@ -26,7 +27,9 @@ async function handler(values: ZVerifyEmailSchema): Promise<ReturnType> {
   const {
     data: { email },
   } = validatedSchema
-  const supabase = createRouteHandlerClient({ cookies })
+  const cookieStore = cookies()
+
+  const supabase = createClient(cookieStore)
   const response = await supabase.auth.resend({
     type: 'signup',
     email,
